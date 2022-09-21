@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,27 +9,66 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ContactEmergencyOutlinedIcon from '@mui/icons-material/ContactEmergencyOutlined';
+import axios from 'axios'
+import { toast } from 'react-toastify';
+import { validation } from '../../validation/validation';
 
 
 const theme = createTheme();
 
 export default function Form() {
+
+    const [error, setError] = useState({})
     const [data, setData] = useState({
         name: '',
         email: '',
         phone: '',
         message: ''
     })
+    const [submit, setSubmit] = useState(false)
 
     const handleChange = (e) => {
         setData({
             ...data, [e.target.name]: e.target.value
         })
     }
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log(data)
+        setError(validation(data))
+
+        setSubmit(true)
+
     };
+    const submitData = async () => {
+        try {
+            const response = await axios.post('http://localhost:7000/form', data)
+            console.log(response)
+            if (response.status === 200) {
+                toast.success("Form submitted Successfully Great job !")
+                setData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    message: ''
+                })
+                setSubmit(false)
+            } else {
+                toast.error("Form  not submitted Try again !")
+            }
+
+        } catch (error) {
+            toast.error("Form  not submitted Try again !")
+            console.log(error.message)
+        }
+    }
+    useEffect(() => {
+        if (Object.keys(error).length === 0 && submit) {
+            submitData()
+
+        }
+    }, [error, submit]);
+
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -77,6 +116,8 @@ export default function Form() {
                                 value={data.name}
                                 autoFocus
                                 onChange={handleChange}
+                                error={error.name ? true : false}
+                                helperText={error.name && `${error.name}`}
                             />
                             <TextField
                                 margin="normal"
@@ -87,19 +128,22 @@ export default function Form() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
-
+                                error={error.email ? true : false}
+                                helperText={error.email && `${error.email}`}
                                 onChange={handleChange}
                             />
                             <TextField
                                 margin="normal"
                                 required
                                 fullWidth
+                                type='number'
                                 value={data.phone}
                                 id="phone"
                                 label="Phone Number"
                                 name="phone"
                                 autoComplete="phone"
-
+                                error={error.phone ? true : false}
+                                helperText={error.phone && `${error.phone}`}
                                 onChange={handleChange}
                             />
                             <TextField
@@ -111,11 +155,10 @@ export default function Form() {
                                 label="Message"
                                 name="message"
                                 autoComplete="message"
-
+                                error={error.message ? true : false}
+                                helperText={error.message && `${error.message}`}
                                 onChange={handleChange}
                             />
-
-
                             <Button
                                 type="submit"
                                 fullWidth
