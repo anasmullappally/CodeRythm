@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import AppBar from '../components/AppBar';
-import Toolbar from '../components/Toolbar';
+import AppBar from '../models/AppBar';
+import Toolbar from '../models/Toolbar';
 
 const rightLink = {
   fontSize: 16,
@@ -10,7 +10,7 @@ const rightLink = {
   ml: 3,
 };
 
-function Navbar() {
+function AppAppBar() {
   return (
     <div>
       <AppBar position="fixed">
@@ -20,28 +20,28 @@ function Navbar() {
             variant="h6"
             underline="none"
             color="inherit"
-            href="/premium-themes/onepirate/"
+            href="/"
             sx={{ fontSize: 24 }}
           >
-            {'onepirate'}
+            {'Hotels'}
           </Link>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             <Link
               color="inherit"
               variant="h6"
               underline="none"
-              href=""
+              href="about"
               sx={rightLink}
             >
-              {'Sign In'}
+              {'About'}
             </Link>
             <Link
               variant="h6"
               underline="none"
-              href=""
+              href="/contact"
               sx={{ ...rightLink, color: 'secondary.main' }}
             >
-              {'Sign Up'}
+              {'Contact Us'}
             </Link>
           </Box>
         </Toolbar>
@@ -51,4 +51,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default AppAppBar;

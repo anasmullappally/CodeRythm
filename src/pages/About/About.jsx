@@ -3,25 +3,21 @@ import Navbar from '../../components/Navbar/Navbar'
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '../../components/Theme/Theme';
-import Main from '../../components/Main/Main';
-import HowItWorks from '../../components/HowItWorks/HowItWorks';
-import Question from '../../components/Question/Question';
 import Footer from '../../components/Footer/Footer';
+import AboutPage from '../../components/About/AboutPage';
+import Services from '../../components/About/Services';
 
 
-function Home() {
-    return (
-
-        <ThemeProvider theme={theme}>
+function About() {
+  return (
+    <ThemeProvider theme={theme}>
             <CssBaseline />
             <Navbar />
-            <Main />
-            <HowItWorks />
-            <Question />
+            <AboutPage/>
+            <Services/>
             <Footer/>
         </ThemeProvider>
-
-    )
+  )
 }
 
-export default Home
+export default About
